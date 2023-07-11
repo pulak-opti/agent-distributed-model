@@ -65,5 +65,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	getDatafile(js)
+	if err := getDatafile(js); err != nil {
+		panic(err)
+	}
 }
