@@ -1,3 +1,4 @@
+// this main.go acts like the pub/sub server
 package main
 
 import (
@@ -43,7 +44,7 @@ func syncDatafile(ctx context.Context, ch chan bool) error {
 				ch <- true
 				Datafile = datafile
 			}
-			time.Sleep(5 * time.Minute)
+			time.Sleep(1 * time.Minute)
 		}
 	}
 }

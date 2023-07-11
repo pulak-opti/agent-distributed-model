@@ -1,3 +1,4 @@
+// this starts the NATS server
 package main
 
 import (

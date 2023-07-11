@@ -1,3 +1,4 @@
+// this will act like an agent instance
 package main
 
 import (
