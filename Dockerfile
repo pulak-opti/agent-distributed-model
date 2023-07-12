@@ -20,5 +20,7 @@ WORKDIR /root/
 
 COPY --from=builder /app/main .
 
+EXPOSE 8080
+
 # Declare entry point of the docker command
 ENTRYPOINT ["./main"]
