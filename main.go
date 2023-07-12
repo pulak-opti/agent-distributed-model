@@ -2,6 +2,7 @@
 package main
 
 import (
+	"crypto/rand"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -18,6 +19,22 @@ import (
 const DatafileURLTemplate = "https://cdn.optimizely.com/datafiles/%s.json"
 
 var Datafile []byte
+
+func generateRandomString(length int) (string, error) {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+	randomBytes := make([]byte, length)
+	_, err := rand.Read(randomBytes)
+	if err != nil {
+		return "", nil
+	}
+
+	for i := 0; i < length; i++ {
+		randomBytes[i] = charset[randomBytes[i]%byte(len(charset))]
+	}
+
+	return string(randomBytes), nil
+}
 
 func webhook(w http.ResponseWriter, r *http.Request) {
 	df, err := downloadDatafile()
@@ -90,8 +107,12 @@ func listenForDatafile(js nats.JetStreamContext) error {
 		return errors.Wrap(err, "failed to add stream")
 	}
 
+	randSuffix, err := generateRandomString(5)
+	if err != nil {
+		return errors.Wrap(err, "failed to create consumer durable name")
+	}
 	conInfo, err := js.AddConsumer(strInfo.Config.Name, &nats.ConsumerConfig{
-		Durable:       "CONSUMER",
+		Durable:       fmt.Sprintf("CONSUMER-%s", randSuffix),
 		AckPolicy:     nats.AckExplicitPolicy,
 		FilterSubject: "DATAFILE.PUBLISH",
 	})
