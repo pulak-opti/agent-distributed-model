@@ -140,7 +140,7 @@ func main() {
 		}
 	}()
 
-	nc, err := nats.Connect(nats.DefaultURL)
+	nc, err := nats.Connect(os.Getenv("NATS_URL"))
 	if err != nil {
 		panic(err)
 	}
