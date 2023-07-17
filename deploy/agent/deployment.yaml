@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
         - name: agent
-          image: agent/distro:v0.0.4
+          image: pkbhowmick/agent:v0.0.1
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8080
