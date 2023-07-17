@@ -1,5 +1,5 @@
 REGISTRY ?= pkbhowmick
-IMAGE ?= agent
+IMAGE ?= agent-poc
 VERSION ?= v0.0.1
 
 deploy-to-kind:

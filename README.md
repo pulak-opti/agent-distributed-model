@@ -12,7 +12,11 @@ In this POC, eventual consistency is improved to a significant level using a pub
 
 ### Architecture
 
+#### Full Architecture:
 ![arch](/static/arch.png)
+
+#### Pub/Sub Architecture:
+![pub-sub-arch](/static/pub-sub-arch.png)
 
 ### Workflow
 1. When multiple agent instances are running in a distributed system like Kubernetes, user can able to register webhook in app.optimizely.com to get updated datafile notification.

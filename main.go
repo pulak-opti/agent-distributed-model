@@ -1,10 +1,9 @@
-// this starts the NATS server
 package main
 
 import (
 	"crypto/rand"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"time"
@@ -13,6 +12,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/nats-io/nats.go"
 	"github.com/pkg/errors"
+
 )
 
 // DatafileURLTemplate is used to construct the endpoint for retrieving regular datafile from the CDN
@@ -63,7 +63,6 @@ func webhook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Write([]byte("received updated datafile notification"))
-	return
 }
 
 func downloadDatafile() ([]byte, error) {
@@ -74,12 +73,12 @@ func downloadDatafile() ([]byte, error) {
 		return nil, err
 	}
 
-	datafile, err := ioutil.ReadAll(resp.Body)
+	datafile, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed to fetch datafile, statue code: ", resp.StatusCode)
+		return nil, fmt.Errorf("failed to fetch datafile, statue code: %d", resp.StatusCode)
 	}
 	return datafile, nil
 }
